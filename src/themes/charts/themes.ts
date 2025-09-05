@@ -105,7 +105,7 @@ import {
 } from '!!variables-from-scss!!../v9/v9_colors_dark.scss';
 
 const ouiV9FontFamily =
-  "'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
+  "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'";
 
 export interface OuiChartThemeType {
   lineAnnotation: LineAnnotationStyle;
