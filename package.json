@@ -17,7 +17,7 @@
     "test-docker": "node ./scripts/test-docker.js",
     "sync-docs": "node ./scripts/docs-sync.js",
     "build-docs": "cross-env BABEL_MODULES=false cross-env NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 webpack --config=src-docs/webpack.config.js",
-    "build": "yarn extract-i18n-strings && node ./scripts/compile-clean.js && node ./scripts/compile-oui.js && node ./scripts/compile-themes.js $npm_package_name && node ./scripts/compile-charts.js",
+    "build": "yarn extract-i18n-strings && node ./scripts/compile-clean.js && node ./scripts/compile-oui.js && (node ./scripts/compile-themes.js $npm_package_name & node ./scripts/compile-charts.js & wait)",
     "clean": "node ./scripts/compile-clean.js",
     "compile-icons": "node ./scripts/compile-icons.js && prettier --write --loglevel=warn \"./src/components/icon/assets/**/*.js\"",
     "extract-i18n-strings": "node ./scripts/babel/fetch-i18n-strings",

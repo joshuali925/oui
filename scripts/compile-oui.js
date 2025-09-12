@@ -28,12 +28,13 @@
  * under the License.
  */
 
-const { execSync } = require('child_process');
+const { execSync, spawn } = require('child_process');
 const chalk = require('chalk');
 const shell = require('shelljs');
 const path = require('path');
 const glob = require('glob');
 const fs = require('fs');
+const os = require('os');
 const dtsGenerator = require('dts-generator').default;
 
 /* OUI -> EUI Aliases */
@@ -211,7 +212,7 @@ function euiBuildTimeAliasTearDown() {
 }
 /* End of Aliases */
 
-function compileLib() {
+async function compileLib() {
   shell.mkdir(
     '-p',
     'lib/components/icon/assets/tokens',
@@ -219,40 +220,125 @@ function compileLib() {
     'lib/test'
   );
 
-  console.log('Compiling src/ to es/, lib/, and test-env/');
-
-  // Run all code (com|trans)pilation through babel (ESNext JS & TypeScript)
-
-  execSync(
-    'babel --quiet --out-dir=es --extensions .js,.ts,.tsx --ignore "**/webpack.config.js,**/*.test.js,**/*.test.ts,**/*.test.tsx,**/*.d.ts,**/*.testenv.js,**/*.testenv.tsx,**/*.testenv.ts" src',
-    {
-      env: {
-        ...process.env,
-        BABEL_MODULES: false,
-        NO_COREJS_POLYFILL: true,
-      },
-    }
+  const cpuCount = os.cpus().length;
+  console.log(
+    `Compiling src/ to es/, lib/, and test-env/ using ${cpuCount} CPU cores...`
   );
 
-  execSync(
-    'babel --quiet --out-dir=lib --extensions .js,.ts,.tsx --ignore "**/webpack.config.js,**/*.test.js,**/*.test.ts,**/*.test.tsx,**/*.d.ts,**/*.testenv.js,**/*.testenv.tsx,**/*.testenv.ts" src',
-    {
-      env: {
-        ...process.env,
-        NO_COREJS_POLYFILL: true,
-      },
+  // Get all source files to compile
+  const sourceFiles = glob.sync('src/**/*.{js,ts,tsx}', {
+    ignore: [
+      '**/webpack.config.js',
+      '**/*.test.js',
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      '**/*.d.ts',
+      '**/*.testenv.js',
+      '**/*.testenv.tsx',
+      '**/*.testenv.ts',
+    ],
+  });
+
+  console.log(`Found ${sourceFiles.length} source files to compile`);
+
+  // Function to chunk array into smaller arrays
+  function chunkArray(array, chunkSize) {
+    const chunks = [];
+    for (let i = 0; i < array.length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
     }
+    return chunks;
+  }
+
+  // Calculate optimal chunk size - aim for using most cores while having reasonable file counts per process
+  const filesPerWorker = Math.max(1, Math.ceil(sourceFiles.length / cpuCount));
+  const fileChunks = chunkArray(sourceFiles, filesPerWorker);
+
+  console.log(
+    `Splitting into ${fileChunks.length} parallel workers with ~${filesPerWorker} files each`
   );
 
-  execSync(
-    'babel --quiet --out-dir=test-env --extensions .js,.ts,.tsx --config-file="./.babelrc-test-env.js" --ignore "**/webpack.config.js,**/*.test.js,**/*.test.ts,**/*.test.tsx,**/*.d.ts" src',
-    {
-      env: {
-        ...process.env,
-        NO_COREJS_POLYFILL: true,
-      },
-    }
-  );
+  // Compile each target in parallel with multiple workers per target
+  const compileTarget = async (
+    targetName,
+    outDir,
+    extraArgs = [],
+    env = {}
+  ) => {
+    const targetEnv = {
+      ...process.env,
+      NO_COREJS_POLYFILL: true,
+      ...env,
+    };
+
+    const workerPromises = fileChunks.map((chunk, index) => {
+      return new Promise((resolve, reject) => {
+        const args = [
+          '--quiet',
+          `--out-dir=${outDir}`,
+          '--extensions',
+          '.js,.ts,.tsx',
+          ...extraArgs,
+          ...chunk,
+        ];
+
+        const child = spawn('babel', args, {
+          env: targetEnv,
+          stdio: 'pipe',
+        });
+
+        let errorOutput = '';
+
+        child.stderr.on('data', (data) => {
+          errorOutput += data.toString();
+        });
+
+        child.on('close', (code) => {
+          if (code === 0) {
+            resolve({ worker: index + 1, files: chunk.length });
+          } else {
+            reject(
+              new Error(
+                `${targetName} worker ${
+                  index + 1
+                } failed with exit code ${code}:\n${errorOutput}`
+              )
+            );
+          }
+        });
+
+        child.on('error', (err) => {
+          reject(
+            new Error(
+              `Failed to start ${targetName} worker ${index + 1}: ${
+                err.message
+              }`
+            )
+          );
+        });
+      });
+    });
+
+    const results = await Promise.all(workerPromises);
+    const totalFiles = results.reduce((sum, result) => sum + result.files, 0);
+    console.log(
+      chalk.green(
+        `✔ Finished compiling ${targetName} (${totalFiles} files using ${results.length} workers)`
+      )
+    );
+  };
+
+  // Run all three targets in parallel, each using multiple workers
+  await Promise.all([
+    compileTarget('ES modules', 'es', [], { BABEL_MODULES: false }),
+    compileTarget('CommonJS lib', 'lib', []),
+    compileTarget(
+      'Test environment',
+      'test-env',
+      ['--config-file=./.babelrc-test-env.js'],
+      {}
+    ),
+  ]);
   glob('./test-env/**/*.testenv.js', undefined, (error, files) => {
     files.forEach((file) => {
       const dir = path.dirname(file);
@@ -284,36 +370,102 @@ function compileLib() {
     files.forEach((file) => {
       const splitPath = file.split('/');
       const basePath = splitPath.slice(2, splitPath.length).join('/');
-      shell.cp('-f', `${file}`, `lib/${basePath}`);
+      const targetPath = `lib/${basePath}`;
+      const targetDir = path.dirname(targetPath);
+
+      // Ensure target directory exists
+      shell.mkdir('-p', targetDir);
+      shell.cp('-f', `${file}`, targetPath);
     });
 
     console.log(chalk.green('✔ Finished copying SVGs'));
   });
 }
 
-function compileBundle() {
+async function compileBundle() {
   shell.mkdir('-p', 'dist');
 
-  console.log('Building bundle...');
-  execSync('webpack --config=src/webpack.config.js', {
-    stdio: 'inherit',
-    env: {
-      ...process.env,
-      BABEL_MODULES: false,
-    },
-  });
+  console.log('Building bundles in parallel...');
 
-  console.log('Building minified bundle...');
-  execSync(
-    'NODE_ENV=production NODE_OPTIONS=--max-old-space-size=4096 webpack --config=src/webpack.config.js',
-    {
-      stdio: 'inherit',
-      env: {
-        ...process.env,
-        BABEL_MODULES: false,
-      },
-    }
-  );
+  const bundlePromises = [
+    new Promise((resolve, reject) => {
+      console.log('Starting regular bundle...');
+      const child = spawn('webpack', ['--config=src/webpack.config.js'], {
+        env: {
+          ...process.env,
+          BABEL_MODULES: false,
+        },
+        stdio: 'pipe',
+      });
+
+      let output = '';
+      let errorOutput = '';
+
+      child.stdout.on('data', (data) => {
+        output += data.toString();
+      });
+
+      child.stderr.on('data', (data) => {
+        errorOutput += data.toString();
+      });
+
+      child.on('close', (code) => {
+        if (code === 0) {
+          console.log('Regular bundle output:', output);
+          console.log(chalk.green('✔ Finished building regular bundle'));
+          resolve();
+        } else {
+          console.error('Regular bundle error:', errorOutput);
+          reject(new Error(`Regular bundle failed with exit code ${code}`));
+        }
+      });
+
+      child.on('error', (err) => {
+        reject(new Error(`Failed to start regular bundle: ${err.message}`));
+      });
+    }),
+
+    new Promise((resolve, reject) => {
+      console.log('Starting minified bundle...');
+      const child = spawn('webpack', ['--config=src/webpack.config.js'], {
+        env: {
+          ...process.env,
+          BABEL_MODULES: false,
+          NODE_ENV: 'production',
+          NODE_OPTIONS: '--max-old-space-size=4096',
+        },
+        stdio: 'pipe',
+      });
+
+      let output = '';
+      let errorOutput = '';
+
+      child.stdout.on('data', (data) => {
+        output += data.toString();
+      });
+
+      child.stderr.on('data', (data) => {
+        errorOutput += data.toString();
+      });
+
+      child.on('close', (code) => {
+        if (code === 0) {
+          console.log('Minified bundle output:', output);
+          console.log(chalk.green('✔ Finished building minified bundle'));
+          resolve();
+        } else {
+          console.error('Minified bundle error:', errorOutput);
+          reject(new Error(`Minified bundle failed with exit code ${code}`));
+        }
+      });
+
+      child.on('error', (err) => {
+        reject(new Error(`Failed to start minified bundle: ${err.message}`));
+      });
+    }),
+  ];
+
+  await Promise.all(bundlePromises);
 
   console.log('Building test utils .d.ts files...');
   dtsGenerator({
@@ -368,10 +520,18 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-euiBuildTimeAliasSetup();
-/* End of Aliases */
-compileLib();
-/* OUI -> EUI Aliases */
-euiBuildTimeAliasTearDown();
-/* End of Aliases */
-compileBundle();
+async function main() {
+  euiBuildTimeAliasSetup();
+  /* End of Aliases */
+  await compileLib();
+  /* OUI -> EUI Aliases */
+  euiBuildTimeAliasTearDown();
+  /* End of Aliases */
+  await compileBundle();
+}
+
+main().catch((error) => {
+  euiBuildTimeAliasTearDown();
+  console.error(error);
+  process.exit(1);
+});

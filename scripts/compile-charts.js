@@ -28,68 +28,105 @@
  * under the License.
  */
 
-const { execSync } = require('child_process');
+const { spawn } = require('child_process');
 const chalk = require('chalk');
 const path = require('path');
 const dtsGenerator = require('dts-generator').default;
 
-function compileChartsBundle() {
-  console.log('Building chart theme module...');
-  webpackCompile('oui_charts_theme.js');
+async function compileChartsBundle() {
+  console.log('Building chart theme modules in parallel...');
 
-  dtsGenerator({
-    prefix: '',
-    out: 'dist/oui_charts_theme.d.ts',
-    baseDir: path.resolve(__dirname, '..', 'src/themes/charts/'),
-    files: ['themes.ts'],
-    resolveModuleId() {
-      return '@opensearch-project/oui/dist/oui_charts_theme';
-    },
-    resolveModuleImport(params) {
-      if (params.importedModuleId === '../../components/common') {
-        return '@opensearch-project/oui/src/components/common';
-      }
-      return null;
-    },
-  });
+  const chartPromises = [
+    buildChartTheme(
+      'oui_charts_theme.js',
+      'oui_charts_theme.d.ts',
+      '@opensearch-project/oui/dist/oui_charts_theme',
+      '@opensearch-project/oui/src/components/common'
+    ),
+    buildChartTheme(
+      'eui_charts_theme.js',
+      'eui_charts_theme.d.ts',
+      '@elastic/eui/dist/eui_charts_theme',
+      '@elastic/eui/src/components/common'
+    ),
+  ];
 
-  /* OUI -> EUI Aliases */
-  webpackCompile('eui_charts_theme.js');
-
-  dtsGenerator({
-    prefix: '',
-    out: 'dist/eui_charts_theme.d.ts',
-    baseDir: path.resolve(__dirname, '..', 'src/themes/charts/'),
-    files: ['themes.ts'],
-    resolveModuleId() {
-      return '@elastic/eui/dist/eui_charts_theme';
-    },
-    resolveModuleImport(params) {
-      if (params.importedModuleId === '../../components/common') {
-        return '@elastic/eui/src/components/common';
-      }
-      return null;
-    },
-  });
-  /* End of Aliases */
-
+  await Promise.all(chartPromises);
   console.log(chalk.green('✔ Finished chart theme module'));
 }
 
-function webpackCompile(outputFilename) {
-  execSync(
-    `webpack --entry-reset --entry ${path.join(
-      __dirname,
-      '../src/themes/charts/themes.ts'
-    )} \
-        -o dist \
-        --config=src/webpack.config.js \
-        --env filename=${outputFilename} \
-        --env library-target=commonjs`,
-    {
-      stdio: 'inherit',
-    }
-  );
+async function buildChartTheme(
+  outputFilename,
+  dtsFilename,
+  moduleId,
+  importPath
+) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(
+      'webpack',
+      [
+        '--entry-reset',
+        '--entry',
+        path.join(__dirname, '../src/themes/charts/themes.ts'),
+        '-o',
+        'dist',
+        '--config=src/webpack.config.js',
+        '--env',
+        `filename=${outputFilename}`,
+        '--env',
+        'library-target=commonjs',
+      ],
+      {
+        stdio: 'pipe',
+      }
+    );
+
+    let output = '';
+    let errorOutput = '';
+
+    child.stdout.on('data', (data) => {
+      output += data.toString();
+    });
+
+    child.stderr.on('data', (data) => {
+      errorOutput += data.toString();
+    });
+
+    child.on('close', (code) => {
+      if (code === 0) {
+        // Generate .d.ts file after successful webpack build
+        dtsGenerator({
+          prefix: '',
+          out: `dist/${dtsFilename}`,
+          baseDir: path.resolve(__dirname, '..', 'src/themes/charts/'),
+          files: ['themes.ts'],
+          resolveModuleId() {
+            return moduleId;
+          },
+          resolveModuleImport(params) {
+            if (params.importedModuleId === '../../components/common') {
+              return importPath;
+            }
+            return null;
+          },
+        });
+
+        console.log(`Chart theme output for ${outputFilename}:`, output);
+        console.log(chalk.green(`✔ Finished building ${outputFilename}`));
+        resolve();
+      } else {
+        console.error(`Chart theme error for ${outputFilename}:`, errorOutput);
+        reject(new Error(`${outputFilename} failed with exit code ${code}`));
+      }
+    });
+
+    child.on('error', (err) => {
+      reject(new Error(`Failed to start ${outputFilename}: ${err.message}`));
+    });
+  });
 }
 
-compileChartsBundle();
+compileChartsBundle().catch((error) => {
+  console.error('Chart compilation failed:', error);
+  process.exit(1);
+});
