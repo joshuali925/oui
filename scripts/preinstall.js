@@ -9,7 +9,7 @@ const { join } = require('path');
 const { INIT_CWD, PWD = process.cwd() } = process.env;
 
 // Only run when installed as a dep
-if (!INIT_CWD?.startsWith?.(PWD)) {
+if (false && !INIT_CWD?.startsWith?.(PWD)) {
   /* These are deps and types which get installed when a production package is installed.
    * When this library is linked as a dep to another project, having all the deps could
    * confuse or conflict the project's compilers.
