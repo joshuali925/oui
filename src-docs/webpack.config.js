@@ -102,7 +102,7 @@ const webpackConfig = {
       },
       {
         test: /\.css$/,
-        use: employCache(['style-loader', 'css-loader']),
+        use: employCache(['style-loader', 'css-loader', 'postcss-loader']),
         exclude: /node_modules/,
       },
       {

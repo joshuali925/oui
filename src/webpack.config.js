@@ -96,6 +96,7 @@ module.exports = (env) => ({
     'prop-types': 'window.PropTypes',
     react: 'window.React',
     'react-dom': 'window.ReactDOM',
+    'react/jsx-runtime': 'window.React',
   },
 
   module: {

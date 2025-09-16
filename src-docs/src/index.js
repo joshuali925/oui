@@ -13,6 +13,7 @@ import React, { createElement } from 'react';
 import { Provider } from 'react-redux';
 import { render } from '../../src/services/react_dom';
 import { Router, Switch, Route, Redirect } from 'react-router';
+import '../../src/styles/globals.css';
 
 import configureStore, { history } from './store/configure_store';
 

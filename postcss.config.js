@@ -11,6 +11,7 @@
 
 module.exports = {
   plugins: [
+    '@tailwindcss/postcss',
     require('autoprefixer')(), // `browsers` property set via `.browserslistrc`
     require('postcss-inline-svg')({ relative: true, path: __dirname }),
   ],
