@@ -32,7 +32,6 @@ import React, {
   forwardRef,
   FunctionComponent,
   Ref,
-  ButtonHTMLAttributes,
   CSSProperties,
   HTMLAttributes,
   ReactNode,
@@ -55,6 +54,7 @@ import {
   OuiButtonContent,
 } from './button_content';
 import { validateHref } from '../../services/security/href_validator';
+import { Button } from '../../../components/ui/button';
 
 export type ButtonColor =
   | 'primary'
@@ -87,6 +87,50 @@ export const sizeToClassNameMap: { [size in ButtonSize]: string | null } = {
 };
 
 export const SIZES = keysOf(sizeToClassNameMap);
+
+// Helper function to map OuiButton props to shadcn Button props
+const mapOuiButtonPropsToShadcn = (color: ButtonColor, fill: boolean) => {
+  let variant: 'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link' = 'default';
+  
+  switch (color) {
+    case 'primary':
+      variant = fill ? 'default' : 'outline';
+      break;
+    case 'secondary':
+    case 'accent':
+      variant = fill ? 'secondary' : 'outline';
+      break;
+    case 'success':
+      variant = fill ? 'default' : 'outline';
+      break;
+    case 'warning':
+      variant = fill ? 'secondary' : 'outline';
+      break;
+    case 'danger':
+      variant = fill ? 'destructive' : 'outline';
+      break;
+    case 'ghost':
+      variant = 'ghost';
+      break;
+    case 'text':
+      variant = 'link';
+      break;
+    default:
+      variant = fill ? 'default' : 'outline';
+  }
+  
+  return variant;
+};
+
+const mapOuiButtonSizeToShadcn = (size: ButtonSize): 'default' | 'sm' | 'lg' | 'icon' => {
+  switch (size) {
+    case 's':
+      return 'sm';
+    case 'm':
+    default:
+      return 'default';
+  }
+};
 
 /**
  * Extends OuiButtonContentProps which provides
@@ -273,47 +317,88 @@ export const OuiButton: FunctionComponent<Props> = ({
   rel,
   type = 'button',
   buttonRef,
+  children,
+  color = 'primary',
+  size = 'm',
+  fill = false,
+  fullWidth,
+  minWidth,
+  style,
+  className,
+  isLoading,
+  isSelected,
+  contentProps,
+  textProps,
+  iconType,
+  iconSide,
+  iconGap,
   ...rest
 }) => {
   const isHrefValid = !href || validateHref(href);
   const disabled = _disabled || !isHrefValid;
   const isDisabled = _isDisabled || !isHrefValid;
 
-  const buttonIsDisabled = rest.isLoading || isDisabled || disabled;
-  const element = href && !isDisabled ? 'a' : 'button';
+  const buttonIsDisabled = isLoading || isDisabled || disabled;
+  
+  const variant = mapOuiButtonPropsToShadcn(color, fill);
+  const shadcnSize = mapOuiButtonSizeToShadcn(size);
 
-  let elementProps = {};
-  // Props for all elements
-  elementProps = { ...elementProps, isDisabled: buttonIsDisabled };
-  // Element-specific attributes
-  if (element === 'button') {
-    elementProps = { ...elementProps, disabled: buttonIsDisabled };
+  let calculatedStyle: CSSProperties | undefined = style;
+  if (minWidth !== undefined || minWidth !== null) {
+    calculatedStyle = {
+      ...calculatedStyle,
+      minWidth,
+    };
+  }
+  if (fullWidth) {
+    calculatedStyle = {
+      ...calculatedStyle,
+      width: '100%',
+    };
   }
 
-  const relObj: {
-    rel?: string;
-    href?: string;
-    type?: ButtonHTMLAttributes<HTMLButtonElement>['type'];
-    target?: string;
-  } = {};
+  // Clean up rest props to avoid spreading incompatible props
+  const {
+    'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedby,
+    onClick,
+    onBlur,
+    onFocus,
+  } = rest;
+
+  const buttonProps = {
+    ref: buttonRef as any, // Type assertion to handle ref compatibility
+    variant,
+    size: shadcnSize,
+    disabled: buttonIsDisabled,
+    className,
+    style: calculatedStyle,
+    'aria-pressed': isSelected,
+    'aria-label': ariaLabel,
+    'aria-describedby': ariaDescribedby,
+    onClick: onClick as any,
+    onBlur: onBlur as any,
+    onFocus: onFocus as any,
+  };
 
   if (href && !buttonIsDisabled) {
-    relObj.href = href;
-    relObj.rel = getSecureRelForTarget({ href, target, rel });
-    relObj.target = target;
-  } else {
-    relObj.type = type as ButtonHTMLAttributes<HTMLButtonElement>['type'];
+    return (
+      <Button {...buttonProps} asChild>
+        <a
+          href={href}
+          target={target}
+          rel={getSecureRelForTarget({ href, target, rel })}
+        >
+          {children}
+        </a>
+      </Button>
+    );
   }
 
   return (
-    <OuiButtonDisplay
-      element={element}
-      baseClassName="ouiButton"
-      ref={buttonRef}
-      {...elementProps}
-      {...relObj}
-      {...rest}
-    />
+    <Button {...buttonProps} type={type as 'button' | 'submit' | 'reset'}>
+      {children}
+    </Button>
   );
 };
 
