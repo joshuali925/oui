@@ -38,7 +38,7 @@
     "yo-doc": "yo ./generator-oui/app/documentation.js",
     "release": "node ./scripts/release.js",
     "postinstall": "node ./scripts/postinstall.js",
-    "preinstall": "node ./scripts/preinstall.js",
+    "preinstall": "echo skipped",
     "version": "node ./scripts/update-changelog-version.js"
   },
   "repository": {
