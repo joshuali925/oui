@@ -4,9 +4,10 @@
  */
 
 // Elevated surface SASS variables — overridden per theme color file.
-// Light theme defaults produce no visual effect.
-$ouiBackgroundElevated: transparent !default;
-$ouiBorderElevated: transparent !default;
+// Light theme defaults are solid white so popovers/modals are opaque
+// instead of bleeding through to the page behind them.
+$ouiBackgroundElevated: $ouiColorEmptyShade !default; // #ffffff in light
+$ouiBorderElevated: $ouiColorLightShade !default;     // DRUIDS --ui-border
 
 :root {
   --oui-background-elevated: #{$ouiBackgroundElevated};

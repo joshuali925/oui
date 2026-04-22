@@ -154,27 +154,27 @@ $ouiColorVis15_behindText: map-get(map-get($ouiPaletteColorBlind, 'ouiColorVis15
 $ouiColorChartLines: shade($ouiColorLightestShade, 3%) !default;
 $ouiColorChartBand: $ouiColorLightestShade !default;
 
-// Code
+// Code — DRUIDS light-mode syntax palette (solid hexes, AA-contrast on white)
 $ouiCodeBlockBackgroundColor: rgba(88, 95, 112, 0.05) !default; // DRUIDS --ui-code-background
-$ouiCodeBlockColor: makeHighContrastColor($ouiTextColor, $ouiCodeBlockBackgroundColor) !default;
+$ouiCodeBlockColor: $ouiColorDarkestShade !default;             // #242931 — base code text
 $ouiCodeBlockSelectedBackgroundColor: inherit !default;
-$ouiCodeBlockCommentColor: $ouiColorVis10 !default;
+$ouiCodeBlockCommentColor: #6a7287 !default;                    // DRUIDS @gray-400--light
 $ouiCodeBlockSelectorTagColor: inherit !default;
-$ouiCodeBlockStringColor: $ouiColorVis11 !default;
-$ouiCodeBlockTagColor: makeHighContrastColor($ouiColorVis1, $ouiCodeBlockBackgroundColor) !default;
-$ouiCodeBlockNameColor: $ouiColorVis12 !default;
-$ouiCodeBlockNumberColor: $ouiColorVis13 !default;
-$ouiCodeBlockKeywordColor: $ouiColorVis14 !default;
+$ouiCodeBlockStringColor: #0c8967 !default;                     // DRUIDS @green-700--light
+$ouiCodeBlockTagColor: #0d70ca !default;                        // DRUIDS @blue-600--light
+$ouiCodeBlockNameColor: #0d70ca !default;
+$ouiCodeBlockNumberColor: #c25a00 !default;                     // DRUIDS @orange-700--light
+$ouiCodeBlockKeywordColor: #6e28c3 !default;                    // DRUIDS @purple-600--light
 $ouiCodeBlockFunctionTitleColor: inherit !default;
-$ouiCodeBlockTypeColor: $ouiColorVis12 !default;
+$ouiCodeBlockTypeColor: #0d70ca !default;
 $ouiCodeBlockAttributeColor: inherit !default;
-$ouiCodeBlockSymbolColor: makeHighContrastColor($ouiColorVis9, $ouiCodeBlockBackgroundColor) !default;
+$ouiCodeBlockSymbolColor: #d76813 !default;                     // DRUIDS @orange-500--light
 $ouiCodeBlockParamsColor: inherit !default;
-$ouiCodeBlockMetaColor: makeHighContrastColor($ouiTextSubduedColor, $ouiCodeBlockBackgroundColor) !default;
-$ouiCodeBlockTitleColor: $ouiColorVis15 !default;
-$ouiCodeBlockSectionColor: makeHighContrastColor($ouiColorVis9, $ouiCodeBlockBackgroundColor) !default;
-$ouiCodeBlockAdditionColor: makeHighContrastColor($ouiColorVis0, $ouiCodeBlockBackgroundColor) !default;
-$ouiCodeBlockDeletionColor: makeHighContrastColor($ouiColorDanger, $ouiCodeBlockBackgroundColor) !default;
+$ouiCodeBlockMetaColor: #6a7287 !default;
+$ouiCodeBlockTitleColor: #d76813 !default;
+$ouiCodeBlockSectionColor: #d76813 !default;
+$ouiCodeBlockAdditionColor: #0c8967 !default;                   // green
+$ouiCodeBlockDeletionColor: #c42b3e !default;                   // red
 $ouiCodeBlockSelectorClassColor: inherit !default;
 $ouiCodeBlockSelectorIdColor: inherit !default;
 

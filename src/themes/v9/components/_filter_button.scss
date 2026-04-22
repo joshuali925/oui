@@ -59,13 +59,10 @@
   }
 }
 
-// Active filters (not selected) - distinct styling
+// Active filters (not selected) — express state with weight + notification
+// color only, no colored border highlight.
 .ouiFilterButton-hasActiveFilters:not(.ouiFilterButton-isSelected) {
   font-weight: $ouiFontWeightSemiBold; // 600
-  border-color: $ouiColorPrimary !important; // Primary border - use !important to override focus/active states
-  border-right: 1px solid $ouiColorPrimary !important; // Restore right border with primary color
-  border-left: 1px solid $ouiColorPrimary !important; // Restore left border with primary color
-  z-index: 2; // Bring to front to show all borders
 
   .ouiFilterButton__notification {
     background-color: $ouiColorPrimary;
@@ -82,14 +79,10 @@
 .ouiFilterButton-isSelected {
   background-color: $ouiFilterButtonSelectedBackground;
   color: $ouiFilterButtonSelectedColor;
-  border-color: $ouiFilterButtonSelectedBorder;
   font-weight: $ouiFontWeightSemiBold;
-  z-index: 2; // Bring to front to show all borders
 
   &:hover:not(:disabled) {
     background-color: darken($ouiFilterButtonSelectedBackground, 5%);
-    border-color: darken($ouiFilterButtonSelectedBorder, 5%);
-    z-index: 3; // Even higher on hover
   }
 
   // Invert notification badge colors for selected state

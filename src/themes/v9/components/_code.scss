@@ -9,7 +9,9 @@
  * GitHub history for details.
  */
 
-// V9 Code / CodeBlock — DRUIDS code palette
+// V9 Code / CodeBlock — font + surface. Token colors come from the
+// theme-level $ouiCodeBlock*Color variables defined in _colors.scss so that
+// both light and dark themes stay readable. Avoid hard-coded token hexes here.
 
 .ouiCode,
 .ouiCodeBlock__pre,
@@ -19,28 +21,7 @@
 
 .ouiCode,
 .ouiCodeBlock {
-  background-color: rgba(88, 95, 112, 0.05); // DRUIDS --ui-code-background
+  background-color: $ouiCodeBlockBackgroundColor;
+  color: $ouiCodeBlockColor;
   border-radius: $ouiBorderRadiusSmall;
-}
-
-// DRUIDS syntax tokens (align PrismJS-style classes)
-.token.keyword,
-.token.atrule,
-.token.attr-name {
-  color: #632ca6; // DRUIDS --ui-code-keyword
-}
-
-.token.string,
-.token.attr-value {
-  color: #006bc2; // DRUIDS --ui-code-string
-}
-
-.token.number,
-.token.boolean {
-  color: #c25a00; // DRUIDS --ui-code-boolean
-}
-
-.token.comment {
-  color: rgba(28, 43, 52, 0.55); // DRUIDS --ui-code-comment
-  font-style: italic;
 }

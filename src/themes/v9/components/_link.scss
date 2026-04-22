@@ -18,10 +18,8 @@
 
   &:hover,
   &:focus {
-    text-decoration: underline;
-  }
-
-  &:hover {
+    // Signal hover with color change only — no underline.
+    text-decoration: none;
     color: darken($ouiColorPrimary, 8%); // DRUIDS --ui-interaction-primary-contrast
   }
 

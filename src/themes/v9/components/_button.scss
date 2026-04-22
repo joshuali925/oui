@@ -57,6 +57,11 @@
     // Unfilled: neutral border, text in variant color, no colored border
     @if ($name != 'ghost') {
       border-color: #c2c8dd; // DRUIDS @ui-border-input
+    } @else {
+      // Ghost in V9 is NOT for dark-on-dark use. Use standard DRUIDS input
+      // border + text color so ghost buttons stay readable on light backgrounds.
+      border-color: #c2c8dd;
+      color: $ouiTextColor;
     }
 
     &:not([class*='isDisabled']) {

@@ -39,14 +39,14 @@ $ouiColorFullShade: #ffffff;    // DRUIDS pure white top of ramp
 $ouiPageBackgroundColor: #1d1c1f; // DRUIDS --neutral--dark / base page surface
 $ouiColorHighlight: #3a2d12;    // DRUIDS amber highlight (dark)
 
-// CodeBlock
-$ouiCodeBlockCommentShade: #838B93;
-$ouiCodeBlockStringShade: #D0809B;
-$ouiCodeBlockNameShade: #6AB0F1;
-$ouiCodeBlockNumberShade: #10B688;
-$ouiCodeBlockKeywordShade: #B174FC;
-$ouiCodeBlockTypeShade: #6AB0F1;
-$ouiCodeBlockTitleShade: #DD8232;
+// CodeBlock — DRUIDS dark-mode syntax palette (AA-contrast on dark bg)
+$ouiCodeBlockCommentShade: #9aa0b0;   // lighter than base text for comments
+$ouiCodeBlockStringShade: #7fd99f;    // soft green for strings
+$ouiCodeBlockNameShade: #6ab0f1;      // blue for tags / names
+$ouiCodeBlockNumberShade: #ff9f5a;    // orange for numbers
+$ouiCodeBlockKeywordShade: #c7a2ff;   // light purple for keywords
+$ouiCodeBlockTypeShade: #6ab0f1;
+$ouiCodeBlockTitleShade: #ff9f5a;
 
 // Variations from core - DRUIDS --ui-text tokens (dark)
 $ouiTextColor: rgba(234, 234, 240, 0.95);       // DRUIDS --ui-text dark
