@@ -16,10 +16,15 @@
   transition: $ouiButtonTransition;
   padding: 0 10px; // DRUIDS md horizontal padding
 
-  // DRUIDS default unfilled: explicit white bg, neutral border, dark text
-  background-color: $ouiColorEmptyShade; // DRUIDS @ui-bg-default
-  border: 1px solid #c2c8dd; // DRUIDS @ui-border-input
-  color: $ouiTextColor; // DRUIDS @ui-text-primary
+  // DRUIDS default unfilled: explicit white bg, neutral border, dark text.
+  // Ghost buttons (used on dark surfaces like ouiHeader--dark) must keep their
+  // original transparent bg + white text, otherwise white-on-white text sits on
+  // the dark header with no contrast. Scope the DRUIDS default to non-ghost.
+  &:not(.ouiButton--ghost) {
+    background-color: $ouiColorEmptyShade; // DRUIDS @ui-bg-default
+    border: 1px solid #c2c8dd; // DRUIDS @ui-border-input
+    color: $ouiTextColor; // DRUIDS @ui-text-primary
+  }
   box-shadow: none; // DRUIDS flat look — no shadow at rest
 
   &:hover,
@@ -27,7 +32,7 @@
     @include ouiSlightShadow($ouiShadowColor, .06); // DRUIDS subtle hover lift
   }
 
-  &:not([class*='isDisabled']) {
+  &:not([class*='isDisabled']):not(.ouiButton--ghost) {
     &:hover,
     &:focus,
     &:focus-within {
