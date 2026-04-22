@@ -9,11 +9,17 @@
  * GitHub history for details.
  */
 
-// DataGrid dark theme adjustments
+// DataGrid DRUIDS token overrides (US-016)
 // sass-lint:disable indentation, empty-line-between-blocks, leading-zero
+// Row/cell border -> DRUIDS --ui-border (#e2e5ed) via $ouiColorLightShade
+$ouiDataGridCellBorder: 1px solid $ouiColorLightShade !global;
+// Header bg -> DRUIDS --ui-background-secondary (#f9fafb) via $ouiPageBackgroundColor
+$ouiDataGridHeaderBackground: $ouiPageBackgroundColor !global;
+// Row hover -> DRUIDS --ui-interaction-secondary
+$ouiDataGridCellHoverBackground: transparentize($ouiColorPrimary, .92) !global;
+
 @if (lightness($ouiPageBackgroundColor) < 50) {
-  // Override variables for dark theme
-  // Note: Header and controls backgrounds remain clean (no override needed)
+  // Dark theme retains stronger borders and shadows
   $ouiDataGridCellBorder: 1px solid transparentize($ouiBorderColor, 0.3) !global;
   $ouiDataGridShadow: 0 2px 4px 0 rgba($ouiShadowColor, 0.2),
     0 1px 2px 0 rgba($ouiShadowColor, 0.15) !global;
@@ -21,6 +27,15 @@
   $ouiDataGridStripeBackground: transparentize($ouiColorLightShade, 0.8) !global;
 }
 // sass-lint:enable indentation, empty-line-between-blocks, leading-zero
+
+// Apply DRUIDS header text treatment: subdued, uppercase, tracking, XS
+@include ouiDataGridHeaderCell {
+  background: $ouiDataGridHeaderBackground; // DRUIDS --ui-background-secondary
+  color: $ouiTextSubduedColor;
+  font-size: $ouiFontSizeXS;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
 
 // Override headerShade style to keep headers clean in v9 theme
 @include ouiDataGridStyles(headerShade) {

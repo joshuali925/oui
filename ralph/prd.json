@@ -1,0 +1,307 @@
+{
+  "project": "OUI",
+  "branchName": "ralph/druid-look-and-feel",
+  "description": "Style-only alignment of the OUI v9 theme to Datadog DRUIDS look and feel. Target ONLY SCSS token files under src/themes/v9/** and component style overrides under src/themes/v9/components/**. Do not modify component TSX/TS source or alter component APIs. DRUIDS foundations reference: colors https://druids.datadoghq.com/foundations/color, spacing https://druids.datadoghq.com/foundations/spacing-and-layout, typography https://druids.datadoghq.com/foundations/typography, elevation https://druids.datadoghq.com/foundations/elevation. Verify visually with src-docs (yarn start) under the 'v9 Light' theme.",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Align core gray/neutral palette to DRUIDS light grays",
+      "description": "As a designer, I want OUI's neutral shades to mirror DRUIDS gray scale so every surface and divider reads the same. Only edit src/themes/v9/global_styling/variables/_colors.scss.",
+      "acceptanceCriteria": [
+        "Set $ouiColorEmptyShade=#ffffff, $ouiColorLightestShade=#f9fafb (DRUIDS @gray-25--light), $ouiColorLightShade=#e2e5ed (@gray-75--light used as --ui-border), $ouiColorMediumShade=#9da4b9 (@gray-200--light), $ouiColorDarkShade=#6a7287 (@gray-400--light), $ouiColorDarkestShade=#242931 (@gray-800--light), $ouiColorFullShade=#1d1c1f (@neutral--dark as full shade)",
+        "Set $ouiPageBackgroundColor=#f9fafb to match DRUIDS --ui-background-secondary",
+        "Leave SCSS comment tags referencing the DRUIDS variable for each color",
+        "Typecheck passes (yarn lint:ts or yarn build)",
+        "SCSS compiles successfully (yarn compile-scss or yarn build)",
+        "Verify in browser using dev-browser skill on v9-light theme that page background and borders match DRUIDS"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-002",
+      "title": "Align text color tokens to DRUIDS translucent-ink system",
+      "description": "As a designer, I want body text, subdued text and disabled text to match DRUIDS' translucent ink so contrast ratios match. Edit only _colors.scss.",
+      "acceptanceCriteria": [
+        "Override $ouiTextColor to rgba(28, 43, 52, 0.98) and $ouiTextSubduedColor to rgba(28, 43, 52, 0.68) (DRUIDS --ui-text / --ui-text-secondary)",
+        "Override $ouiColorDisabled to derive from rgba(28, 43, 52, 0.35) (--ui-text-disabled)",
+        "$ouiTitleColor remains darker variant of $ouiTextColor and keeps AA contrast on $ouiColorEmptyShade",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that paragraph, title and subdued copy on the Text page match DRUIDS"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Align primary, accent and status colors to DRUIDS interaction scale",
+      "description": "As a designer, I want OUI's primary/accent/status colors to match DRUIDS interaction and status tokens so buttons, links and badges share the same hues. Edit only _colors.scss.",
+      "acceptanceCriteria": [
+        "$ouiColorPrimary=#006bc2 (DRUIDS --ui-interaction-primary / @blue-500--light)",
+        "$ouiColorAccent=#632ca6 (--ui-brand / @purple-600--light)",
+        "$ouiColorSecondary=#41c464 and $ouiColorSuccess=#41c464 (--ui-status-success)",
+        "$ouiColorWarning=#f99d02 (--ui-status-warning / @amber-500--light)",
+        "$ouiColorDanger=#eb364b (--ui-status-danger / @red-500--light)",
+        "$ouiColorHighlight=#fff6e3 (@amber-100--light) to replace hardcoded yellow",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that primary buttons, success/danger badges and links adopt DRUIDS hues"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Align spacing scale to the DRUIDS 8px grid",
+      "description": "As a designer, I want OUI's size tokens to map to DRUIDS xxs(2)/xs(4)/sm(8)/md(16)/lg(24)/xl(32)/xxl(48). Edit only src/themes/v9/global_styling/variables/_size.scss.",
+      "acceptanceCriteria": [
+        "$ouiSize = 16px (unchanged); $ouiSizeXXS=2px, $ouiSizeXS=4px, $ouiSizeS=8px, $ouiSizeM=12px (kept as half-step compatibility), $ouiSizeL=24px, $ouiSizeXL=32px, $ouiSizeXXL=48px (was 40px)",
+        "SCSS comments call out the DRUIDS mapping (xxs/xs/sm/md/lg/xl/xxl)",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that page padding on a Panel example equals DRUIDS @spacing-md (16px)"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-005",
+      "title": "Align typography scale to DRUIDS Basic Typography",
+      "description": "As a designer, I want font sizes, line heights and base font to match DRUIDS Basic scale. Edit only src/themes/v9/global_styling/variables/_typography.scss.",
+      "acceptanceCriteria": [
+        "$ouiFontSize=13px (DRUIDS @font-md); $ouiFontSizeXS=11px (@font-xs), $ouiFontSizeS=12px (@font-sm), $ouiFontSizeM=13px, $ouiFontSizeL=15px (@font-lg), $ouiFontSizeXL=18px (@font-xl), $ouiFontSizeXXL=23px (@font-xxl)",
+        "$ouiLineHeight kept so that body text renders at 28px line-height at 13px font (ratio ~2.15) matching @height-md",
+        "$ouiFontFamily starts with 'Noto Sans' (already correct) and $ouiCodeFontFamily keeps 'Roboto Mono'",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that Text and Title examples match DRUIDS scale (13px body, 15/18/23 headings)"
+      ],
+      "priority": 5,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-006",
+      "title": "Align font weights to DRUIDS 400/600 scale",
+      "description": "As a designer, I want non-body weights to resolve to DRUIDS' 400 regular and 600 bold so headings and strong text match. Edit only _typography.scss.",
+      "acceptanceCriteria": [
+        "$ouiFontWeightRegular=400 (unchanged), $ouiFontWeightMedium=400 (alias to regular, DRUIDS has no medium), $ouiFontWeightSemiBold=600, $ouiFontWeightBold=600 (DRUIDS maps bold->600)",
+        "$ouiTitles map uses $ouiFontWeightSemiBold (600) for all sizes",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that Title examples render at 600 weight"
+      ],
+      "priority": 6,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-007",
+      "title": "Align border radii and border colors to DRUIDS",
+      "description": "As a designer, I want corners and dividers to match DRUIDS' flat 4px radius and #e2e5ed border. Edit only src/themes/v9/global_styling/variables/_borders.scss.",
+      "acceptanceCriteria": [
+        "$ouiBorderRadius=4px (was 6px) to match DRUIDS default radius",
+        "$ouiBorderRadiusSmall=4px (unchanged), $ouiBorderRadiusLarge=8px",
+        "$ouiBorderColor derives from $ouiColorLightShade (#e2e5ed) — no direct hex literal",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that Button, Panel and Card corners render at 4px"
+      ],
+      "priority": 7,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-008",
+      "title": "Align shadow levels to DRUIDS @shadow-1..6",
+      "description": "As a designer, I want elevation shadows to match DRUIDS' six-level stack with base 0 0 1px rgba(0,0,0,0.1) layer. Edit only src/themes/v9/global_styling/variables/_shadows.scss (and _elevation.scss if needed).",
+      "acceptanceCriteria": [
+        "$ouiShadow1..$ouiShadow6 render exactly as: base + 0 1px 2px / 0 1px 4px / 0 2px 8px / 0 3px 12px / 0 4px 16px / 0 5px 24px at rgba(0,0,0,0.32) in light theme (already defined; verify still accurate after US-001 changes)",
+        "Add inline comments mapping each $ouiShadowN to the DRUIDS use case (Button hover, Popover, SidePanel, etc.)",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that Popover and Modal receive DRUIDS-grade shadows"
+      ],
+      "priority": 8,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-009",
+      "title": "Add DRUIDS --ui-* CSS variables at :root",
+      "description": "As a developer, I want DRUIDS semantic CSS variables available so component-level overrides can reference --ui-background, --ui-text, --ui-interaction-primary, etc. Edit only src/themes/v9/global_styling/css_variables/_index.scss (create the file if absent) and _elevation.scss.",
+      "acceptanceCriteria": [
+        "Add :root block exposing --ui-background, --ui-background-secondary, --ui-background-tertiary, --ui-background-elevated, --ui-background-shade, --ui-border, --ui-text, --ui-text-secondary, --ui-text-tertiary, --ui-text-disabled, --ui-interaction-primary, --ui-interaction-primary-contrast, --ui-interaction-secondary, --ui-status-danger, --ui-status-warning, --ui-status-success, --ui-status-other, --ui-status-in-progress, --ui-brand, --ui-important, --ui-code-background",
+        "Each variable derives from the SCSS token set in US-001..US-003 (interpolated via #{...})",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that getComputedStyle(document.documentElement).getPropertyValue('--ui-background') returns #ffffff"
+      ],
+      "priority": 9,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-010",
+      "title": "Restyle ouiButton to DRUIDS default/primary sizes",
+      "description": "As a designer, I want OUI buttons to look like DRUIDS' flat 28px default buttons (md) with 20/28/36 size tiers and primary filled blue. Edit only src/themes/v9/global_styling/variables/_buttons.scss and src/themes/v9/components/_button.scss.",
+      "acceptanceCriteria": [
+        "Default (md) button height = 28px, small = 24px, xs = 20px (aligned to DRUIDS xs=20, md=28, lg=36)",
+        "Button horizontal padding 10px md / 6px xs, radius 4px ($ouiBorderRadiusSmall)",
+        "Primary filled button: background $ouiColorPrimary (#006bc2), border darker #0953bf, text $ouiColorGhost; hover bg=#0953bf, border unchanged",
+        "Default unfilled button: background #ffffff, border 1px solid #c2c8dd, text $ouiTextColor; hover bg=transparentize($ouiTextColor,.95)",
+        "Buttons have no box-shadow at rest (flat DRUIDS look); keep $ouiShadow1 only on hover",
+        "No changes to button TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that /#/navigation/button matches DRUIDS Button page"
+      ],
+      "priority": 10,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-011",
+      "title": "Restyle form controls to DRUIDS 28px input",
+      "description": "As a designer, I want OUI text inputs, selects and textareas to adopt DRUIDS' 28px flat input (4px radius, #c2c8dd border, white fill). Edit only src/themes/v9/global_styling/variables/_form.scss and, if needed, add src/themes/v9/components/_form.scss override (import it from components/_index.scss).",
+      "acceptanceCriteria": [
+        "$ouiFormControlHeight=28px, $ouiFormControlCompressedHeight=24px",
+        "$ouiFormControlBorderRadius=4px (unchanged), $ouiFormBackgroundColor=#ffffff, $ouiFormBorderOpaqueColor=#c2c8dd",
+        "Remove the inset box-shadow on focus in favor of a 2px outer ring using $ouiColorPrimary at 25% opacity to mirror DRUIDS focus",
+        "Placeholder color derives from rgba(28,43,52,0.5) (--ui-text-tertiary)",
+        "No changes to form component TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that /#/forms/form-controls inputs match DRUIDS height, border and focus"
+      ],
+      "priority": 11,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-012",
+      "title": "Restyle badges and tags to DRUIDS pills",
+      "description": "As a designer, I want OUI Badge and BetaBadge to render as DRUIDS tag pills: 4px radius, 13px font, subtle gray bg and dark-blue ink. Edit only src/themes/v9/global_styling/variables/_badge.scss and src/themes/v9/components/_badge.scss / _beta_badge.scss / _notification_badge.scss.",
+      "acceptanceCriteria": [
+        "$ouiBadgeBorderRadius=4px (from 10px), $ouiBadgeMinHeight=21px, $ouiBadgeFontSize=13px, $ouiBadgeFontWeight=400, $ouiBadgePaddingHorizontal=4px, $ouiBadgePaddingVertical=1px",
+        "Default badge bg=#e2e5ed (DRUIDS @gray-75--light), text=$ouiColorDarkestShade",
+        "Status-colored badges use DRUIDS soft backgrounds (tintOrShade(color, 90%, 70%)) with the matching -contrast text color",
+        "No changes to badge TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that /#/display/badge matches DRUIDS Tag visuals"
+      ],
+      "priority": 12,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-013",
+      "title": "Restyle panels, modals and popovers to DRUIDS surfaces",
+      "description": "As a designer, I want OUI Panel / Modal / Popover / Card to render flat 4px-radius surfaces on --ui-background-elevated with DRUIDS shadow levels. Edit only src/themes/v9/global_styling/variables/_panel.scss and add an override in src/themes/v9/components/_panel.scss imported from the components index.",
+      "acceptanceCriteria": [
+        "$ouiPanelBorderRadius=4px, $ouiModalBorderRadius=4px (DRUIDS Modal uses flat 4px), $ouiPopoverBorderRadius=4px",
+        "$ouiCardBorderRadius=4px; $ouiPanelPaddingModifier=16px ($ouiSize)",
+        "$ouiPanelBackgroundColorModifiers.plain uses var(--ui-background-elevated); modal/popover use $ouiShadow2 / $ouiShadow4 respectively (matching DRUIDS guidance)",
+        "No changes to panel/modal/popover TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that /#/layout/panel and /#/layout/modal match DRUIDS radii and shadows"
+      ],
+      "priority": 13,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-014",
+      "title": "Restyle links and tabs to DRUIDS interaction blue",
+      "description": "As a designer, I want OUI Link and Tabs to use DRUIDS interaction primary blue and hover contrast. Edit only src/themes/v9/components/_link.scss and add src/themes/v9/components/_tabs.scss (imported from the components index).",
+      "acceptanceCriteria": [
+        "ouiLink color = $ouiColorPrimary; hover color = #0953bf (--ui-interaction-primary-contrast); visited color unchanged",
+        "Text decoration on hover only (matching DRUIDS link behavior)",
+        "OuiTab underline uses 2px solid $ouiColorPrimary; inactive tab color uses $ouiTextSubduedColor",
+        "No changes to Link/Tabs TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill on /#/navigation/link and /#/navigation/tabs"
+      ],
+      "priority": 14,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-015",
+      "title": "Restyle callouts and toasts to DRUIDS soft statuses",
+      "description": "As a designer, I want OuiCallOut and OuiToast to use DRUIDS soft status backgrounds with matching contrast text. Edit only src/themes/v9/components/_call_out.scss and _toast.scss.",
+      "acceptanceCriteria": [
+        "Info callout bg derives from #eaf6fc (--ui-interaction-secondary); danger bg from rgba(235,54,75,0.1); warning bg from rgba(249,157,2,0.15); success bg from rgba(65,196,100,0.15)",
+        "Border radius = 4px; left border (if any) = 2px in the matching primary color",
+        "Text uses the -contrast variant of the matching status color so copy passes AA",
+        "Toast uses --ui-background-shade (#464b59) with knockout text per DRUIDS shade scaffolding",
+        "No changes to callout/toast TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill on /#/display/callout and /#/display/toast"
+      ],
+      "priority": 15,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-016",
+      "title": "Restyle tables and data grid to DRUIDS",
+      "description": "As a designer, I want OuiBasicTable and OuiDataGrid to render DRUIDS-style rows: 28px-ish row height, 1px #e2e5ed borders, subtle zebra, hover bg #f9fafb. Edit only src/themes/v9/components/_data_grid.scss and add src/themes/v9/components/_table.scss (imported from the components index).",
+      "acceptanceCriteria": [
+        "Row border color = $ouiColorLightShade (#e2e5ed)",
+        "Header bg = $ouiPageBackgroundColor (#f9fafb), header text uses $ouiTextSubduedColor uppercase/tracking matching DRUIDS TableHeaderCell",
+        "Row hover bg = transparentize($ouiColorPrimary, .92) (≈ DRUIDS --ui-interaction-secondary)",
+        "No changes to table/datagrid TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill on /#/tabular-content/tables and /#/tabular-content/data-grid"
+      ],
+      "priority": 16,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-017",
+      "title": "Restyle code blocks to DRUIDS code palette",
+      "description": "As a designer, I want OuiCode and OuiCodeBlock to use DRUIDS Roboto Mono and the --ui-code-* palette. Edit only src/themes/v9/global_styling/variables/_colors.scss (code tokens) and add src/themes/v9/components/_code.scss (imported from the components index).",
+      "acceptanceCriteria": [
+        "$ouiCodeBlockBackgroundColor = rgba(88,95,112,0.05) (DRUIDS --ui-code-background)",
+        "$ouiCodeBlockColor, $ouiCodeBlockKeywordColor, $ouiCodeBlockStringColor, $ouiCodeBlockNumberColor and $ouiCodeBlockCommentColor remapped to DRUIDS code-text/code-keyword/code-string/code-boolean/code-comment (see color page for exact values)",
+        "Code font-family resolves to $ouiCodeFontFamily ('Roboto Mono')",
+        "No changes to code TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill on /#/editors-syntax/code and /#/editors-syntax/code-block"
+      ],
+      "priority": 17,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-018",
+      "title": "Mirror all color/border/shadow overrides in v9 dark theme",
+      "description": "As a designer, I want the v9 dark theme to follow DRUIDS dark scaffolding so dark mode tracks the new tokens. Edit only src/themes/v9/v9_colors_dark.scss (and css_variables/_elevation.scss if needed for dark :root overrides).",
+      "acceptanceCriteria": [
+        "Dark overrides map: $ouiColorEmptyShade=#1d1c1f, $ouiColorLightestShade=#222126, $ouiColorLightShade=#3b393d, $ouiPageBackgroundColor=#1d1c1f, $ouiColorPrimary=#579fdd (@blue-500--dark), $ouiColorDanger=#d33043, $ouiColorWarning=#cc9022, $ouiColorSuccess=#349c50",
+        "$ouiShadowOpacity increased to 0.8 for dark (DRUIDS: shadows are 80% in dark)",
+        "--ui-background-elevated set to #272626 and --ui-border-elevated to #3b393d via dark override of _elevation.scss",
+        "No changes to TSX sources",
+        "Typecheck passes",
+        "SCSS compiles successfully",
+        "Verify in browser using dev-browser skill that 'v9 Dark' theme renders with DRUIDS dark scaffolding"
+      ],
+      "priority": 18,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}

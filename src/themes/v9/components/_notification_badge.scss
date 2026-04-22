@@ -12,8 +12,10 @@
 // V9 notification badge overrides
 
 .ouiNotificationBadge {
-  border-radius: $ouiBorderRadiusSmall;
-  font-weight: $ouiFontWeightSemiBold;
+  // DRUIDS tag pill — flat radius + @font-md
+  border-radius: $ouiBadgeBorderRadius;
+  font-size: $ouiFontSize;
+  font-weight: $ouiFontWeightRegular;
   // sass-lint:disable indentation
   transition:
     background-color $ouiAnimSpeedFast $ouiAnimEaseInOut,

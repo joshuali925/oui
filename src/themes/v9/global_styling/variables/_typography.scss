@@ -46,33 +46,35 @@ $ouiCodeFontFamily: #{"'Roboto Mono', Consolas, Menlo, Courier, monospace"} !def
 // Careful using ligatures. Code editors like ACE will often error because of width calculations
 $ouiFontFeatureSettings: 'calt' 1, 'kern' 1, 'liga' 1 !default;
 
-// Font sizes -- scale is loosely based on Major Third (1.250)
+// Font sizes -- aligned to Datadog DRUIDS Basic type scale
+// Ref: https://druids.datadoghq.com/foundations/typography
 $ouiTextScale:      2, 1.714286, 1.285714, 1.1429, 1, .857143, .75 !default;
 
-$ouiFontSize:       14px !default; // 5th position in scale
-$ouiFontSizeXS:     $ouiFontSize * nth($ouiTextScale, 6) !default; // 12px
-$ouiFontSizeS:      $ouiFontSize * nth($ouiTextScale, 5) !default; // 14px
-$ouiFontSizeM:      $ouiFontSize * nth($ouiTextScale, 4) !default; // 16px
-$ouiFontSizeL:      $ouiFontSize * nth($ouiTextScale, 3) !default; // 18px
-$ouiFontSizeXL:     $ouiFontSize * nth($ouiTextScale, 2) !default; // 24px
-$ouiFontSizeXXL:    $ouiFontSize * nth($ouiTextScale, 1) !default; // 28px
+$ouiFontSize:       13px !default; // DRUIDS @font-md (base)
+$ouiFontSizeXS:     11px !default; // DRUIDS @font-xs
+$ouiFontSizeS:      12px !default; // DRUIDS @font-sm
+$ouiFontSizeM:      13px !default; // DRUIDS @font-md (same as base)
+$ouiFontSizeL:      15px !default; // DRUIDS @font-lg
+$ouiFontSizeXL:     18px !default; // DRUIDS @font-xl
+$ouiFontSizeXXL:    23px !default; // DRUIDS @font-xxl
 
 // This value is impacted by font-size
 $ouiLegibilityMaxWidth: 80ch !default;
 
 // Line height
-$ouiLineHeight:     1.6 !default;
+// DRUIDS @height-md is 20px at 13px base; 20 / 13 ≈ 1.5385 to land body copy near 20px
+$ouiLineHeight:     1.54 !default; // DRUIDS @height-md (~20px on 13px base)
 $ouiBodyLineHeight: 1 !default;
 $ouiHeadingLineHeight: 1.3 !default;
 
-// Font weights
+// Font weights -- aligned to Datadog DRUIDS weight tokens
 $ouiFontWeightLight:        300 !default;
-$ouiFontWeightRegular:      400 !default;
-$ouiFontWeightMedium:       500 !default;
-$ouiFontWeightSemiBold:     600 !default;
-$ouiFontWeightBold:         700 !default;
+$ouiFontWeightRegular:      400 !default; // DRUIDS @font-weight-regular
+$ouiFontWeightMedium:       400 !default; // DRUIDS has no medium; alias to regular (400)
+$ouiFontWeightSemiBold:     600 !default; // DRUIDS @font-weight-semibold
+$ouiFontWeightBold:         600 !default; // DRUIDS bold resolves to 600 (semibold)
 $ouiCodeFontWeightRegular:  400 !default;
-$ouiCodeFontWeightBold:     700 !default;
+$ouiCodeFontWeightBold:     600 !default; // DRUIDS bold resolves to 600
 
 // Letter spacing
 $ouiLetterSpacingTight:     -.01em !default;
@@ -107,17 +109,17 @@ $ouiTitles: (
     'line-height': $ouiHeadingLineHeight,
     'font-weight': $ouiFontWeightSemiBold,
   ),
-  // h2: 24px / medium
+  // h2: 18px / semibold (DRUIDS)
   'm': (
     'font-size': $ouiFontSizeXL,
     'line-height': $ouiHeadingLineHeight,
-    'font-weight': $ouiFontWeightMedium,
+    'font-weight': $ouiFontWeightSemiBold,
   ),
-  // h1: 28px / medium
+  // h1: 23px / semibold (DRUIDS)
   'l': (
     'font-size': $ouiFontSizeXXL,
     'line-height': $ouiHeadingLineHeight,
-    'font-weight': $ouiFontWeightMedium,
+    'font-weight': $ouiFontWeightSemiBold,
   ),
 ) !default;
 

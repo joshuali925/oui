@@ -11,11 +11,11 @@
 
 // Sizing
 $ouiFormMaxWidth: $ouiSizeXXL * 10 !default;
-$ouiFormControlHeight: $ouiSizeXXL !default;
-$ouiFormControlCompressedHeight: $ouiSizeXL !default;
+$ouiFormControlHeight: 28px !default; // DRUIDS input md (was based on $ouiSizeXXL which is now 48)
+$ouiFormControlCompressedHeight: 24px !default; // DRUIDS input sm
 $ouiFormControlPadding: $ouiSizeM !default;
 $ouiFormControlCompressedPadding: $ouiSizeS !default;
-$ouiFormControlBorderRadius: $ouiBorderRadiusSmall !default;
+$ouiFormControlBorderRadius: 4px !default; // DRUIDS 4px radius
 $ouiFormControlCompressedBorderRadius: $ouiBorderRadiusSmall !default;
 
 $ouiRadioSize: $ouiSize !default;
@@ -57,10 +57,10 @@ $ouiSwitchColors: (
 ) !default;
 
 // Coloring
-$ouiFormBackgroundColor: tintOrShade($ouiColorLightestShade, 60%, 40%) !default;
+$ouiFormBackgroundColor: $ouiColorEmptyShade !default; // DRUIDS --ui-background
 $ouiFormBackgroundDisabledColor: darken($ouiColorLightestShade, 2%) !default;
 $ouiFormBackgroundReadOnlyColor: transparentize(lightOrDarkTheme($ouiColorLightShade, $ouiColorInk), .95) !default;
-$ouiFormBorderOpaqueColor: shadeOrTint(desaturate(adjust-hue($ouiColorPrimary, 22), 22.95), 26%, 100%) !default;
+$ouiFormBorderOpaqueColor: #c2c8dd !default; // DRUIDS @ui-border-input
 $ouiFormBorderColor: transparentize($ouiFormBorderOpaqueColor, .9) !default;
 $ouiFormBorderDisabledColor: transparentize($ouiFormBorderOpaqueColor, .9) !default;
 $ouiFormCustomControlDisabledIconColor: shadeOrTint($ouiColorMediumShade, 38%, 48.5%) !default; // exact 508c foreground for $ouiColorLightShade

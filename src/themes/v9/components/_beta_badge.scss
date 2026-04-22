@@ -12,6 +12,10 @@
 // V9 beta badge overrides
 
 .ouiBetaBadge {
+  // DRUIDS tag pill — flat radius + @font-md
+  border-radius: $ouiBadgeBorderRadius;
+  font-size: $ouiFontSize;
+  font-weight: $ouiFontWeightRegular;
   // sass-lint:disable indentation
   transition:
     background-color $ouiAnimSpeedFast $ouiAnimEaseInOut,

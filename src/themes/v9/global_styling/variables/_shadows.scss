@@ -21,13 +21,13 @@ $ouiShadowOpacity: 0.32 !default;
 // Base shadow layer (always present)
 $ouiShadowBase: 0 0 1px rgba(0, 0, 0, 0.1);
 
-// Shadow level definitions
-$ouiShadow1: $ouiShadowBase, 0 1px 2px rgba(0, 0, 0, $ouiShadowOpacity);
-$ouiShadow2: $ouiShadowBase, 0 1px 4px rgba(0, 0, 0, $ouiShadowOpacity);
-$ouiShadow3: $ouiShadowBase, 0 2px 8px rgba(0, 0, 0, $ouiShadowOpacity);
-$ouiShadow4: $ouiShadowBase, 0 3px 12px rgba(0, 0, 0, $ouiShadowOpacity);
-$ouiShadow5: $ouiShadowBase, 0 4px 16px rgba(0, 0, 0, $ouiShadowOpacity);
-$ouiShadow6: $ouiShadowBase, 0 5px 24px rgba(0, 0, 0, $ouiShadowOpacity);
+// Shadow level definitions — DRUIDS @shadow-1..6 elevation stack
+$ouiShadow1: $ouiShadowBase, 0 1px 2px rgba(0, 0, 0, $ouiShadowOpacity); // DRUIDS @shadow-1 — Button hover, small chips
+$ouiShadow2: $ouiShadowBase, 0 1px 4px rgba(0, 0, 0, $ouiShadowOpacity); // DRUIDS @shadow-2 — DatePicker, Dropdown
+$ouiShadow3: $ouiShadowBase, 0 2px 8px rgba(0, 0, 0, $ouiShadowOpacity); // DRUIDS @shadow-3 — Popover, Tooltip
+$ouiShadow4: $ouiShadowBase, 0 3px 12px rgba(0, 0, 0, $ouiShadowOpacity); // DRUIDS @shadow-4 — Modal, SidePanel
+$ouiShadow5: $ouiShadowBase, 0 4px 16px rgba(0, 0, 0, $ouiShadowOpacity); // DRUIDS @shadow-5 — Toast, Menu overlay
+$ouiShadow6: $ouiShadowBase, 0 5px 24px rgba(0, 0, 0, $ouiShadowOpacity); // DRUIDS @shadow-6 — Dialog / elevated drawer
 
 // Local elevation z-index values
 $ouiLocalZIndex1: 1;

@@ -9,11 +9,11 @@
  * GitHub history for details.
  */
 
-// Dense button sizing: shift all sizes down one step
-// Default → Small (32px), Small → XSmall (24px), XSmall removed (matches Small)
-$ouiButtonHeight: $ouiSizeXL !default;
-$ouiButtonHeightSmall: $ouiSizeL !default;
-$ouiButtonHeightXSmall: $ouiSizeL !default;
+// DRUIDS button sizing: md=28px, sm=24px, xs=20px
+// Ref: https://druids.datadoghq.com/components/form/Button
+$ouiButtonHeight: 28px !default; // DRUIDS md
+$ouiButtonHeightSmall: 24px !default; // DRUIDS sm
+$ouiButtonHeightXSmall: 20px !default; // DRUIDS xs
 
 
 $ouiButtonColorDisabled: tintOrShade($ouiTextColor, 70%, 70%) !default;

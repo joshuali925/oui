@@ -9,15 +9,15 @@
  * GitHub history for details.
  */
 
-$ouiSize:     16px !default;
+$ouiSize:     16px !default; // DRUIDS @spacing-md
 
-$ouiSizeXXS:   $ouiSize * .125 !default;
-$ouiSizeXS:   $ouiSize * .25 !default;
-$ouiSizeS:    $ouiSize * .5 !default;
-$ouiSizeM:    $ouiSize * .75 !default;
-$ouiSizeL:    $ouiSize * 1.5 !default;
-$ouiSizeXL:   $ouiSize * 2 !default;
-$ouiSizeXXL:  $ouiSize * 2.5 !default;
+$ouiSizeXXS:   $ouiSize * .125 !default; // 2px - DRUIDS @spacing-xxs
+$ouiSizeXS:   $ouiSize * .25 !default; // 4px - DRUIDS @spacing-xs
+$ouiSizeS:    $ouiSize * .5 !default; // 8px - DRUIDS @spacing-sm
+$ouiSizeM:    $ouiSize * .75 !default; // 12px - half-step compatibility (between DRUIDS @spacing-sm and @spacing-md)
+$ouiSizeL:    $ouiSize * 1.5 !default; // 24px - DRUIDS @spacing-lg
+$ouiSizeXL:   $ouiSize * 2 !default; // 32px - DRUIDS @spacing-xl
+$ouiSizeXXL:  $ouiSize * 3 !default; // 48px - DRUIDS @spacing-xxl (was 2.5 / 40px)
 
 $ouiButtonMinWidth: $ouiSize * 7 !default;
 

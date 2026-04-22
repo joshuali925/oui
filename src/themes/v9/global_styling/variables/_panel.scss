@@ -16,13 +16,13 @@ $ouiPanelPaddingModifiers: (
 ) !default;
 
 // Panel and card base variables
-$ouiPanelBorderRadius: $ouiBorderRadius !default;
-$ouiPanelPaddingModifier: $ouiSize !default;
-$ouiCardBorderRadius: $ouiBorderRadius !default;
+$ouiPanelBorderRadius: 4px !default; // DRUIDS flat surface
+$ouiPanelPaddingModifier: $ouiSize !default; // DRUIDS @spacing-md (16px)
+$ouiCardBorderRadius: 4px !default; // DRUIDS Card flat 4px
 
 // Modal and popover variables
-$ouiModalBorderRadius: $ouiBorderRadiusLarge !default;
-$ouiPopoverBorderRadius: $ouiBorderRadius !default;
+$ouiModalBorderRadius: 4px !default; // DRUIDS Modal flat
+$ouiPopoverBorderRadius: 4px !default; // DRUIDS Popover
 
 $ouiPanelBorderRadiusModifiers: (
   'borderRadiusNone': 0,
@@ -33,7 +33,7 @@ $ouiPanelBorderRadiusModifiers: (
 
 $ouiPanelBackgroundColorModifiers: (
   'transparent': transparent,
-  'plain': $ouiColorEmptyShade,
+  'plain': var(--ui-background-elevated), // DRUIDS --ui-background-elevated (US-009)
   'subdued': $ouiPageBackgroundColor,
   'accent':  tintOrShade($ouiColorAccent, 90%, 70%),
   'primary': tintOrShade($ouiColorPrimary, 90%, 70%),

@@ -10,6 +10,23 @@
  */
 
 // V9 theme: Use regular font-weight (400) for links instead of semibold (600)
+// and apply DRUIDS interaction-primary color semantics.
 .ouiLink {
   font-weight: $ouiFontWeightRegular; // 400
+  color: $ouiColorPrimary; // DRUIDS --ui-interaction-primary
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    text-decoration: underline;
+  }
+
+  &:hover {
+    color: darken($ouiColorPrimary, 8%); // DRUIDS --ui-interaction-primary-contrast
+  }
+
+  &.ouiLink-disabled {
+    text-decoration: none;
+    cursor: default;
+  }
 }

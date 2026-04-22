@@ -13,18 +13,18 @@
 // Badge variables
 
 // Border radius
-$ouiBadgeBorderRadius: $ouiBorderRadiusLarge !default; // 12px
+$ouiBadgeBorderRadius: 4px !default; // DRUIDS flat tag radius
 
 // Padding
-$ouiBadgePaddingHorizontal: 10px !default;
-$ouiBadgePaddingVertical: 2px !default;
+$ouiBadgePaddingHorizontal: 4px !default;
+$ouiBadgePaddingVertical: 1px !default;
 
 // Sizing
-$ouiBadgeMinHeight: 22px !default;
+$ouiBadgeMinHeight: 21px !default; // DRUIDS tag md height
 
 // Typography
-$ouiBadgeFontSize: $ouiFontSizeXS !default; // 12px
-$ouiBadgeFontWeight: $ouiFontWeightRegular !default; // 400
+$ouiBadgeFontSize: $ouiFontSize !default; // DRUIDS @font-md (13px)
+$ouiBadgeFontWeight: $ouiFontWeightRegular !default; // DRUIDS 400
 $ouiBadgeLineHeight: 1.5 !default;
 
 // Transitions

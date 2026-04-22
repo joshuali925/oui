@@ -9,30 +9,103 @@
  * GitHub history for details.
  */
 
-// Dark theme adjustments for Toast component
-// sass-lint:disable indentation, no-trailing-whitespace, leading-zero
-@if (lightness($ouiPageBackgroundColor) < 50) {
-  // Override variables for dark theme
-  $ouiToastBorder: 1px solid transparentize($ouiBorderColor, 0.3) !global; // More visible border
-  $ouiToastShadow: 0 4px 6px -1px rgba($ouiShadowColor, 0.2),
-    0 2px 4px -1px rgba($ouiShadowColor, 0.15) !global; // Stronger shadow
-  $ouiToastCloseButtonHoverBackground: transparentize($ouiColorLightShade, 0.3) !global; // Lighter hover
+// V9 Theme-specific Toast overrides — DRUIDS shade scaffolding
+// sass-lint:disable no-color-literals, leading-zero, indentation, no-trailing-whitespace
 
-  // Accent bar color adjustments - lighten by 5% for better visibility
-  .ouiToast--primary::before {
-    background-color: lighten($ouiColorPrimary, 5%);
+// Base toast: dark shade surface with knockout (ghost) text/icons per DRUIDS
+.ouiToast {
+  background-color: $ouiColorDarkestShade; // DRUIDS --ui-background-shade
+  color: $ouiColorGhost;                   // knockout text
+  border-radius: $ouiBorderRadius;         // DRUIDS flat 4px radius
+  border-color: transparent;
+
+  .ouiToastHeader__icon {
+    fill: $ouiColorGhost;
   }
 
-  .ouiToast--success::before {
-    background-color: lighten($ouiColorSecondary, 5%);
+  .ouiToastHeader__title {
+    color: $ouiColorGhost;
   }
 
-  .ouiToast--warning::before {
-    background-color: lighten($ouiColorWarning, 5%);
+  .ouiToastBody {
+    color: $ouiColorGhost;
   }
 
-  .ouiToast--danger::before {
-    background-color: lighten($ouiColorDanger, 5%);
+  .ouiToast__closeButton {
+    svg {
+      fill: transparentize($ouiColorGhost, .3);
+    }
+
+    &:hover svg {
+      fill: $ouiColorGhost;
+    }
+
+    &:focus {
+      background-color: transparentize($ouiColorGhost, .85);
+
+      svg {
+        fill: $ouiColorGhost;
+      }
+    }
   }
 }
-// sass-lint:enable indentation, no-trailing-whitespace, leading-zero
+
+// Per-color modifiers: status-colored toasts retain knockout text on a
+// nearly-opaque status-colored background (~0.95 opacity).
+.ouiToast--primary {
+  background-color: transparentize($ouiColorPrimary, .05);
+
+  .ouiToastHeader__icon,
+  .ouiToastHeader__title,
+  .ouiToastBody {
+    color: $ouiColorGhost;
+    fill: $ouiColorGhost;
+  }
+}
+
+.ouiToast--success {
+  background-color: transparentize($ouiColorSuccess, .05);
+
+  .ouiToastHeader__icon,
+  .ouiToastHeader__title,
+  .ouiToastBody {
+    color: $ouiColorGhost;
+    fill: $ouiColorGhost;
+  }
+}
+
+.ouiToast--warning {
+  background-color: transparentize($ouiColorWarning, .05);
+
+  .ouiToastHeader__icon,
+  .ouiToastHeader__title,
+  .ouiToastBody {
+    color: $ouiColorGhost;
+    fill: $ouiColorGhost;
+  }
+}
+
+.ouiToast--danger {
+  background-color: transparentize($ouiColorDanger, .05);
+
+  .ouiToastHeader__icon,
+  .ouiToastHeader__title,
+  .ouiToastBody {
+    color: $ouiColorGhost;
+    fill: $ouiColorGhost;
+  }
+}
+
+// Dark theme: retain shade scaffolding but lift the base surface slightly
+@if (lightness($ouiPageBackgroundColor) < 50) {
+  $ouiToastBorder: 1px solid transparentize($ouiBorderColor, 0.3) !global;
+  $ouiToastShadow: 0 4px 6px -1px rgba($ouiShadowColor, 0.2),
+    0 2px 4px -1px rgba($ouiShadowColor, 0.15) !global;
+  $ouiToastCloseButtonHoverBackground: transparentize($ouiColorLightShade, 0.3) !global;
+
+  .ouiToast {
+    // In dark theme the darkest shade can match the page; lift it.
+    background-color: lighten($ouiColorDarkestShade, 8%);
+  }
+}
+// sass-lint:enable no-color-literals, leading-zero, indentation, no-trailing-whitespace

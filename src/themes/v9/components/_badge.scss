@@ -12,14 +12,17 @@
 // V9 badge overrides — tighter spacing, refined typography, gap-based icon layout
 
 .ouiBadge {
-  font-size: $ouiFontSizeXS;
-  font-weight: $ouiFontWeightSemiBold;
-  line-height: 1.5;
-  padding: 2px 10px;
-  min-height: 22px;
+  // DRUIDS tag pill — gray bg + dark ink
+  background-color: $ouiColorLightShade; // DRUIDS @gray-75--light
+  color: $ouiColorDarkestShade; // DRUIDS --ui-text on tag
+  font-size: $ouiBadgeFontSize;
+  font-weight: $ouiBadgeFontWeight;
+  line-height: $ouiBadgeLineHeight;
+  padding: $ouiBadgePaddingVertical $ouiBadgePaddingHorizontal;
+  min-height: $ouiBadgeMinHeight;
   display: inline-flex;
   align-items: center;
-  border-radius: $ouiBorderRadiusSmall;
+  border-radius: $ouiBadgeBorderRadius;
   // sass-lint:disable indentation
   transition:
     background-color $ouiAnimSpeedFast $ouiAnimEaseInOut,
@@ -30,6 +33,21 @@
 
   @media (prefers-reduced-motion: reduce) {
     transition: none;
+  }
+
+  // Status-colored soft backgrounds — DRUIDS soft tag variants
+  // sass-lint:disable-block indentation
+  @each $name, $color in (
+    primary: $ouiColorPrimary,
+    accent: $ouiColorAccent,
+    success: $ouiColorSuccess,
+    warning: $ouiColorWarning,
+    danger: $ouiColorDanger
+  ) {
+    &.ouiBadge--#{$name} {
+      background-color: transparentize($color, .85); // DRUIDS soft tag
+      color: makeHighContrastColor($color);
+    }
   }
 
   .ouiBadge__content {

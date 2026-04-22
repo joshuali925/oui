@@ -1,0 +1,46 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// V9 Code / CodeBlock — DRUIDS code palette
+
+.ouiCode,
+.ouiCodeBlock__pre,
+.ouiCodeBlock__code {
+  font-family: $ouiCodeFontFamily; // Roboto Mono
+}
+
+.ouiCode,
+.ouiCodeBlock {
+  background-color: rgba(88, 95, 112, 0.05); // DRUIDS --ui-code-background
+  border-radius: $ouiBorderRadiusSmall;
+}
+
+// DRUIDS syntax tokens (align PrismJS-style classes)
+.token.keyword,
+.token.atrule,
+.token.attr-name {
+  color: #632ca6; // DRUIDS --ui-code-keyword
+}
+
+.token.string,
+.token.attr-value {
+  color: #006bc2; // DRUIDS --ui-code-string
+}
+
+.token.number,
+.token.boolean {
+  color: #c25a00; // DRUIDS --ui-code-boolean
+}
+
+.token.comment {
+  color: rgba(28, 43, 52, 0.55); // DRUIDS --ui-code-comment
+  font-style: italic;
+}

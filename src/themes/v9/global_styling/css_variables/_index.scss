@@ -1,7 +1,45 @@
 /*!
- * Copyright OpenSearch Contributors
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
  */
 
 @import 'fonts';
 @import 'elevation';
+
+// DRUIDS semantic CSS variables (light theme defaults).
+// Exposed at :root so component-level styles can reference them directly,
+// and so theme files can swap the SCSS source tokens to change values globally.
+:root {
+  --ui-background: #{$ouiColorEmptyShade};
+  --ui-background-secondary: #{$ouiPageBackgroundColor};
+  --ui-background-tertiary: #{$ouiColorLightestShade};
+  --ui-background-elevated: var(--oui-background-elevated, #{$ouiColorEmptyShade});
+  --ui-background-shade: #{$ouiColorDarkestShade};
+
+  --ui-border: #{$ouiColorLightShade};
+
+  --ui-text: #{$ouiTextColor};
+  --ui-text-secondary: #{$ouiTextSubduedColor};
+  --ui-text-tertiary: #{rgba(28, 43, 52, 0.5)};
+  --ui-text-disabled: #{$ouiColorDisabled};
+
+  --ui-interaction-primary: #{$ouiColorPrimary};
+  --ui-interaction-primary-contrast: #{darken($ouiColorPrimary, 8%)};
+  --ui-interaction-secondary: #{transparentize($ouiColorPrimary, .92)};
+
+  --ui-status-danger: #{$ouiColorDanger};
+  --ui-status-warning: #{$ouiColorWarning};
+  --ui-status-success: #{$ouiColorSuccess};
+  --ui-status-other: #{$ouiColorMediumShade};
+  --ui-status-in-progress: #{$ouiColorPrimary};
+
+  --ui-brand: #{$ouiColorAccent};
+  --ui-important: #{$ouiColorAccent};
+  --ui-code-background: #{rgba(88, 95, 112, 0.05)};
+}

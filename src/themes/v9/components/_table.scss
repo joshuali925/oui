@@ -1,0 +1,33 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// V9 Basic table — DRUIDS table row styling
+
+.ouiTable {
+  border-color: $ouiColorLightShade; // DRUIDS --ui-border
+}
+
+.ouiTableHeaderCell,
+.ouiTableHeaderCellCheckbox {
+  background-color: $ouiPageBackgroundColor; // DRUIDS --ui-background-secondary
+  color: $ouiTextSubduedColor;
+  font-size: $ouiFontSizeXS;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.ouiTableRow {
+  border-bottom: 1px solid $ouiColorLightShade;
+
+  &:hover {
+    background-color: transparentize($ouiColorPrimary, .92); // DRUIDS --ui-interaction-secondary
+  }
+}

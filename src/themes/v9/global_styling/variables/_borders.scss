@@ -14,10 +14,10 @@
 $ouiBorderWidthThin: 1px !default;
 $ouiBorderWidthThick: 2px !default;
 
-$ouiBorderColor: $ouiColorLightShade !default;
-$ouiBorderRadius: 6px !default;
-$ouiBorderRadiusSmall: 4px !default;
-$ouiBorderRadiusLarge: 10px !default;
+$ouiBorderColor: $ouiColorLightShade !default; // DRUIDS @ui-border = #e2e5ed (derived from $ouiColorLightShade)
+$ouiBorderRadius: 4px !default; // DRUIDS default radius (was 6px)
+$ouiBorderRadiusSmall: 4px !default; // DRUIDS small radius (unchanged)
+$ouiBorderRadiusLarge: 8px !default; // DRUIDS large radius (was 10px; Modal uses 4, Card can use 8)
 $ouiBorderThick: $ouiBorderWidthThick solid $ouiBorderColor !default;
 $ouiBorderThin: $ouiBorderWidthThin solid $ouiBorderColor !default;
 $ouiBorderEditable: $ouiBorderWidthThick dotted $ouiBorderColor !default;

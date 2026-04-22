@@ -10,32 +10,32 @@
  */
 
 // sass-lint:disable no-color-literals, leading-zero
-// V9 Theme-specific CallOut modernization overrides
+// V9 Theme-specific CallOut modernization overrides — DRUIDS soft-status callouts
 
 .ouiCallOut {
   padding: calc($ouiSize * 1.25); // 20px for better breathing room
-  border: 1px solid transparent; // All-around border instead of just left
-  border-radius: 8px; // Rounded on right side only (per user request)
-  box-shadow: 0 1px 2px 0 rgba($ouiShadowColor, 0.05); // Subtle elevation for light theme
-  // border-left-width: 3px; // Thicker left border for accent
+  border: 1px solid transparent;
+  border-left: 2px solid transparent; // 2px left accent (status color applied in loop)
+  border-radius: $ouiBorderRadius; // DRUIDS flat 4px radius
+  box-shadow: none; // DRUIDS soft callouts are flat
 
   &.ouiCallOut--small {
-    padding: $ouiSize; // 16px (was 12px)
+    padding: $ouiSize; // 16px
   }
 
   .ouiCallOutHeader__icon {
-    transform: translateY(1px); // Adjusted from 2px
-    opacity: 0.9; // Subtle appearance
+    transform: translateY(1px);
+    opacity: 0.9;
   }
 
   .ouiCallOut__closeIcon {
-    right: $ouiSizeS; // 8px (was calc($ouiSizeS / 2))
-    top: $ouiSizeS; // 8px (was 0)
-    opacity: 0.7; // Subtle appearance
+    right: $ouiSizeS;
+    top: $ouiSizeS;
+    opacity: 0.7;
     transition: opacity $ouiAnimSpeedFast $ouiAnimEaseInOut;
 
     &:hover {
-      opacity: 1; // Full opacity on hover
+      opacity: 1;
     }
   }
 
@@ -47,103 +47,52 @@
   }
 }
 
-// Update color modifiers for v9 theme
+// DRUIDS soft-status color modifiers
+// Background: transparentized status color (--ui-interaction-secondary style)
+// Left accent: 2px in matching status color
+// Text: makeHighContrastColor() for AA contrast on the soft background
 @each $name, $color in $ouiCallOutTypes {
   .ouiCallOut--#{$name} {
-    // Modern border with subtle opacity
-    @if (lightness($ouiPageBackgroundColor) < 50) {
-      // Dark theme: higher opacity for visibility
-      border-color: rgba($color, 0.3);
-      background-color: rgba($color, 0.12);
-      box-shadow: 0 1px 2px 0 rgba($ouiShadowColor, 0.2);
-    } @else {
-      // Light theme: lower opacity for subtlety
-      border-color: rgba($color, 0.2);
-      background-color: rgba($color, 0.05);
+    // DRUIDS soft backgrounds per modifier
+    @if ($name == 'primary') {
+      background-color: transparentize($ouiColorPrimary, .92); // DRUIDS --ui-interaction-secondary
+    } @else if ($name == 'success') {
+      background-color: transparentize($ouiColorSuccess, .85);
+    } @else if ($name == 'warning') {
+      background-color: transparentize($ouiColorWarning, .85);
+    } @else if ($name == 'danger') {
+      background-color: transparentize($ouiColorDanger, .9);
     }
 
-    // Left border accent (thicker)
-    // border-left-color: $color;
+    // Remove all-around border, keep only the 2px left accent in status color
+    border-color: transparent;
+    border-left-color: $color;
 
     .ouiCallOutHeader__icon {
-      // Use modern foreground colors
-      @if (lightness($ouiPageBackgroundColor) < 50) {
-        // Dark theme: lighter colors for better contrast
-        @if ($name == 'primary') {
-          fill: #93C5FD; // Blue-300
-        } @else if ($name == 'success') {
-          fill: #6EE7B7; // Green-300
-        } @else if ($name == 'warning') {
-          fill: #FCD34D; // Amber-300
-        } @else if ($name == 'danger') {
-          fill: #FCA5A5; // Red-300
-        }
-      } @else {
-        // Light theme: darker colors for better contrast
-        @if ($name == 'primary') {
-          fill: #1E40AF; // Blue-800
-        } @else if ($name == 'success') {
-          fill: #047857; // Green-700
-        } @else if ($name == 'warning') {
-          fill: #B45309; // Amber-700
-        } @else if ($name == 'danger') {
-          fill: #B91C1C; // Red-700
-        }
-      }
+      fill: makeHighContrastColor($color);
     }
 
     .ouiCallOutHeader__title {
-      // Use modern foreground colors
-      @if (lightness($ouiPageBackgroundColor) < 50) {
-        // Dark theme: lighter colors for better contrast
-        @if ($name == 'primary') {
-          color: #93C5FD; // Blue-300
-        } @else if ($name == 'success') {
-          color: #6EE7B7; // Green-300
-        } @else if ($name == 'warning') {
-          color: #FCD34D; // Amber-300
-        } @else if ($name == 'danger') {
-          color: #FCA5A5; // Red-300
-        }
-      } @else {
-        // Light theme: darker colors for better contrast
-        @if ($name == 'primary') {
-          color: #1E40AF; // Blue-800
-        } @else if ($name == 'success') {
-          color: #047857; // Green-700
-        } @else if ($name == 'warning') {
-          color: #B45309; // Amber-700
-        } @else if ($name == 'danger') {
-          color: #B91C1C; // Red-700
-        }
-      }
+      color: makeHighContrastColor($color);
     }
 
     .ouiCallOut__closeIcon {
-      // Use modern foreground colors
-      @if (lightness($ouiPageBackgroundColor) < 50) {
-        // Dark theme: lighter colors for better contrast
-        @if ($name == 'primary') {
-          fill: #93C5FD; // Blue-300
-        } @else if ($name == 'success') {
-          fill: #6EE7B7; // Green-300
-        } @else if ($name == 'warning') {
-          fill: #FCD34D; // Amber-300
-        } @else if ($name == 'danger') {
-          fill: #FCA5A5; // Red-300
-        }
-      } @else {
-        // Light theme: darker colors for better contrast
-        @if ($name == 'primary') {
-          fill: #1E40AF; // Blue-800
-        } @else if ($name == 'success') {
-          fill: #047857; // Green-700
-        } @else if ($name == 'warning') {
-          fill: #B45309; // Amber-700
-        } @else if ($name == 'danger') {
-          fill: #B91C1C; // Red-700
-        }
-      }
+      fill: makeHighContrastColor($color);
     }
+  }
+}
+
+// Info callout shares the primary (interaction-secondary) treatment per DRUIDS.
+// $ouiCallOutTypes does not include `info`, so add the mapping explicitly.
+.ouiCallOut--info {
+  background-color: transparentize($ouiColorPrimary, .92); // DRUIDS --ui-interaction-secondary
+  border-color: transparent;
+  border-left-color: $ouiColorPrimary;
+
+  .ouiCallOutHeader__icon,
+  .ouiCallOutHeader__title,
+  .ouiCallOut__closeIcon {
+    fill: makeHighContrastColor($ouiColorPrimary);
+    color: makeHighContrastColor($ouiColorPrimary);
   }
 }
