@@ -33,6 +33,14 @@
   font-weight: $ouiFontWeightRegular;              // 400 instead of 500
 }
 
+// Remove the hover underline added by the base .ouiBreadcrumb--isInteractive rule
+.ouiBreadcrumb {
+  &:hover,
+  &:focus {
+    text-decoration: none;
+  }
+}
+
 // Respect reduced motion preference
 @media (prefers-reduced-motion: reduce) {
   .ouiBreadcrumbWrapper::before,

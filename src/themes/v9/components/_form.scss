@@ -23,6 +23,8 @@
   background-color: $ouiFormBackgroundColor; // DRUIDS --ui-background
   border: 1px solid $ouiFormBorderOpaqueColor; // DRUIDS @ui-border-input
   box-shadow: none;
+  // Drop the EUI underline-gradient so the bottom border stays 1px at rest
+  background-image: none;
 
   &::placeholder {
     color: rgba(28, 43, 52, 0.5); // DRUIDS --ui-text-tertiary
@@ -30,12 +32,21 @@
 
   &:focus,
   &:focus-within {
-    box-shadow: 0 0 0 2px transparentize($ouiColorPrimary, .75); // DRUIDS focus ring
+    // DRUIDS focus: soft 2px halo + primary border, no 2px bottom underline
+    box-shadow: 0 0 0 2px transparentize($ouiColorPrimary, .75);
     border-color: $ouiColorPrimary;
+    background-image: none;
+    background-size: 100% 100%;
     outline: none;
+  }
+
+  &:invalid {
+    // Invalid inputs use a danger halo rather than a thick bottom line.
+    background-image: none;
   }
 
   &:disabled {
     box-shadow: none;
+    background-image: none;
   }
 }

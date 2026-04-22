@@ -54,14 +54,11 @@
 // Override per-color variant: unfilled gets neutral border, filled stays flat
 @each $name, $color in $ouiButtonTypes {
   .ouiButton--#{$name} {
-    // Unfilled: neutral border, text in variant color, no colored border
+    // Unfilled: neutral border, text in variant color, no colored border.
+    // Ghost stays on its original white text + white border because it's
+    // always used against dark surfaces (OuiHeader --dark, dark toast, etc.)
     @if ($name != 'ghost') {
       border-color: #c2c8dd; // DRUIDS @ui-border-input
-    } @else {
-      // Ghost in V9 is NOT for dark-on-dark use. Use standard DRUIDS input
-      // border + text color so ghost buttons stay readable on light backgrounds.
-      border-color: #c2c8dd;
-      color: $ouiTextColor;
     }
 
     &:not([class*='isDisabled']) {
@@ -71,13 +68,23 @@
       &:focus,
       &:focus-within {
         @include ouiSlightShadow($ouiShadowColor, .06); // DRUIDS subtle hover
-        border-color: #c2c8dd; // DRUIDS @ui-border-input
-        background-color: transparentize($ouiTextColor, .95); // DRUIDS neutral hover
+        @if ($name == 'ghost') {
+          // Keep ghost readable on dark surfaces — light overlay, white text
+          background-color: rgba(255, 255, 255, .08);
+          border-color: rgba(255, 255, 255, .6);
+        } @else {
+          border-color: #c2c8dd; // DRUIDS @ui-border-input
+          background-color: transparentize($ouiTextColor, .95); // DRUIDS neutral hover
+        }
       }
 
       &:active {
         @include ouiSlightShadow($ouiShadowColor, .06); // DRUIDS subtle active
-        background-color: transparentize($ouiTextColor, .92); // DRUIDS neutral active
+        @if ($name == 'ghost') {
+          background-color: rgba(255, 255, 255, .12);
+        } @else {
+          background-color: transparentize($ouiTextColor, .92); // DRUIDS neutral active
+        }
       }
 
       // Filled variant — DRUIDS primary-style

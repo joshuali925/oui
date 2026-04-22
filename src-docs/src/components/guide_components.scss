@@ -50,6 +50,17 @@ body {
   border-right: none;
   position: relative;
 
+  // The base ouiPageSideBar--sticky sets top: $ouiHeaderHeightCompensation to
+  // keep the sidebar below the fixed header. In this layout the body already
+  // accounts for the header via padding-top, so the sticky offset double-
+  // counts and produces a blank strip above the search input. Pin the sticky
+  // offset to the header height but start the element at the top of its flex
+  // row so there's no visible gap at scrollY=0.
+  &.ouiPageSideBar--sticky {
+    top: 0;
+    max-height: calc(100vh - #{$ouiHeaderHeightCompensation});
+  }
+
   &::after {
     content: '';
     position: absolute;
