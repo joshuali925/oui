@@ -23,6 +23,30 @@
     color: darken($ouiColorPrimary, 8%); // DRUIDS --ui-interaction-primary-contrast
   }
 
+  // Color variants (subdued, ghost, etc.) each have their own `:hover, :focus`
+  // rules in the base EUI link styles that re-apply `text-decoration: underline`.
+  // Match their specificity here so the no-underline rule wins for every color.
+  &.ouiLink--subdued:hover,
+  &.ouiLink--subdued:focus,
+  &.ouiLink--primary:hover,
+  &.ouiLink--primary:focus,
+  &.ouiLink--secondary:hover,
+  &.ouiLink--secondary:focus,
+  &.ouiLink--success:hover,
+  &.ouiLink--success:focus,
+  &.ouiLink--accent:hover,
+  &.ouiLink--accent:focus,
+  &.ouiLink--danger:hover,
+  &.ouiLink--danger:focus,
+  &.ouiLink--warning:hover,
+  &.ouiLink--warning:focus,
+  &.ouiLink--text:hover,
+  &.ouiLink--text:focus,
+  &.ouiLink--ghost:hover,
+  &.ouiLink--ghost:focus {
+    text-decoration: none;
+  }
+
   &.ouiLink-disabled {
     text-decoration: none;
     cursor: default;
