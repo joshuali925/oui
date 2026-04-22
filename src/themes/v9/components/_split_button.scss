@@ -1,0 +1,81 @@
+/*!
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * The OpenSearch Contributors require contributions made to
+ * this file be licensed under the Apache-2.0 license or a
+ * compatible open source license.
+ *
+ * Modifications Copyright OpenSearch Contributors. See
+ * GitHub history for details.
+ */
+
+// V9 SplitButton — DRUIDS flat look. Match regular button styling and use a
+// simple 1px separator between the primary action and the dropdown.
+
+.ouiSplitButton {
+  .ouiSplitButtonControl {
+    // Wrapper no longer needs a thick accent border — buttons carry their own.
+    border: none;
+    border-radius: $ouiBorderRadiusSmall;
+    box-shadow: none;
+  }
+
+  // Primary action button — same silhouette as a regular DRUIDS button, with
+  // only the right edge flattened so the split separator can sit flush.
+  button.ouiSplitButtonControl--primary {
+    border-top-width: 1px;
+    border-left-width: 1px;
+    border-bottom-width: 1px;
+    border-right-width: 1px;
+    border-style: solid;
+    border-color: #c2c8dd; // DRUIDS @ui-border-input
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: $ouiBorderRadiusSmall;
+    border-bottom-left-radius: $ouiBorderRadiusSmall;
+  }
+
+  // Dropdown toggle — mirrors the primary button with a shared 1px border,
+  // flat left edge, and no extra accent ring.
+  button.ouiSplitButtonControl--dropdown {
+    border: 1px solid #c2c8dd;
+    border-left: none; // share the separator with the primary button's right edge
+    border-radius: 0;
+    border-top-right-radius: $ouiBorderRadiusSmall;
+    border-bottom-right-radius: $ouiBorderRadiusSmall;
+  }
+
+  // Drop the accent-colored right-edge tinting — keep the 1px separator neutral.
+  @each $name, $color in $ouiButtonTypes {
+    .ouiSplitButtonHairline--#{$name} {
+      &:not([class*='isDisabled']),
+      &.ouiSplitButtonHairline--filled:not([class*='isDisabled']) {
+        border-right-color: #c2c8dd;
+      }
+    }
+  }
+
+  // Filled variant — both halves share the same DRUIDS filled treatment and a
+  // darker shade serves as the split separator.
+  @each $name, $color in $ouiButtonTypes {
+    .ouiSplitButtonColor--#{$name}.ouiSplitButtonColor--fill {
+      background-color: $color;
+      color: $ouiColorGhost;
+      border-color: darken($color, 8%);
+
+      &:not([class*='isDisabled']) {
+        &:hover,
+        &:focus,
+        &:focus-within {
+          background-color: darken($color, 8%);
+          border-color: darken($color, 12%);
+          box-shadow: none;
+        }
+      }
+
+      &.ouiSplitButtonControl--primary {
+        border-right-color: darken($color, 16%); // visible split on filled
+      }
+    }
+  }
+}
