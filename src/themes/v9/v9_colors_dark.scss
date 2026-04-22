@@ -17,9 +17,9 @@ $ouiColorGhost: #E3E5E9;
 $ouiColorInk: #02020E;
 
 // Core - Aligned to Datadog DRUIDS dark palette (mirrors US-001/002/003 for dark mode)
-$ouiColorPrimary: #579fdd;      // DRUIDS @blue-500--dark
+$ouiColorPrimary: #bf82fc;      // DRUIDS @purple-400--dark (primary brand)
 $ouiColorSecondary: #349c50;    // DRUIDS --ui-status-success dark
-$ouiColorAccent: #bf82fc;       // DRUIDS @purple-400--dark
+$ouiColorAccent: #579fdd;       // DRUIDS @blue-500--dark (interaction highlights)
 
 // Status - DRUIDS status palette (dark)
 $ouiColorSuccess: #349c50;      // DRUIDS --ui-status-success dark

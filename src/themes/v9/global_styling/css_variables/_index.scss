@@ -29,17 +29,19 @@
   --ui-text-tertiary: #{rgba(28, 43, 52, 0.5)};
   --ui-text-disabled: #{$ouiColorDisabled};
 
-  --ui-interaction-primary: #{$ouiColorPrimary};
-  --ui-interaction-primary-contrast: #{darken($ouiColorPrimary, 8%)};
-  --ui-interaction-secondary: #{transparentize($ouiColorPrimary, .92)};
+  // Interaction blue (DRUIDS --ui-interaction-primary) lives on $ouiColorAccent
+  --ui-interaction-primary: #{$ouiColorAccent};
+  --ui-interaction-primary-contrast: #{darken($ouiColorAccent, 8%)};
+  --ui-interaction-secondary: #{transparentize($ouiColorAccent, .92)};
 
   --ui-status-danger: #{$ouiColorDanger};
   --ui-status-warning: #{$ouiColorWarning};
   --ui-status-success: #{$ouiColorSuccess};
   --ui-status-other: #{$ouiColorMediumShade};
-  --ui-status-in-progress: #{$ouiColorPrimary};
+  --ui-status-in-progress: #{$ouiColorAccent};
 
-  --ui-brand: #{$ouiColorAccent};
-  --ui-important: #{$ouiColorAccent};
+  // Brand purple (DRUIDS --ui-brand) lives on $ouiColorPrimary
+  --ui-brand: #{$ouiColorPrimary};
+  --ui-important: #{$ouiColorPrimary};
   --ui-code-background: #{rgba(88, 95, 112, 0.05)};
 }

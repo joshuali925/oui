@@ -18,9 +18,9 @@ $ouiColorGhost: #FCFEFF !default;
 $ouiColorInk: #02020E !default;
 
 // Core - Aligned to Datadog DRUIDS (https://druids.datadoghq.com/foundations/color)
-$ouiColorPrimary: #006bc2 !default;      // DRUIDS --ui-interaction-primary / @blue-500--light
+$ouiColorPrimary: #632ca6 !default;      // DRUIDS --ui-brand / @purple-600--light (primary brand — matches Datadog chrome/marks)
 $ouiColorSecondary: #41c464 !default;    // DRUIDS --ui-status-success
-$ouiColorAccent: #632ca6 !default;       // DRUIDS --ui-brand / @purple-600--light
+$ouiColorAccent: #006bc2 !default;       // DRUIDS --ui-interaction-primary / @blue-500--light (interaction highlights)
 
 // Status - DRUIDS status palette
 $ouiColorSuccess: #41c464 !default;      // DRUIDS --ui-status-success
